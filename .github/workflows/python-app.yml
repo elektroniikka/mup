@@ -26,6 +26,7 @@ jobs:
       id: action-step
       run: |
         output=$(python automate.py)
+        output="${output//'%'/'%25'}"
         echo "::set-output name=changelog::$output"
     - name: Print results
       run: echo "${{ steps.action-step.outputs.changelog }}"
