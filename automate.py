@@ -21,42 +21,25 @@ options.add_argument('--ignore-certificate-errors')
 driver = webdriver.Chrome(service=Service(
     executable_path=ChromeDriverManager().install()),desired_capabilities=capabilities, options=options)
 
+
 driver.get(URL_STKHLM)
 driver.implicitly_wait(2)
 
 errorPanel = driver.find_elements(By.CLASS_NAME, "feedbackPanelERROR")
-try:
-    print(errorPanel.count())
-    print(errorPanel.text)
-except Exception as e:
-    print("Date Found")
-
 dateLine = driver.find_element(By.CLASS_NAME, "fc-day-header")
-print(dateLine.text)
+if len(errorPanel) > 0:
+    print("No dates found for Stockholm")
+else:
+    print("Date found to be {0}".format(dateLine.text))
 
 driver.get(URL_UPPSLA)
 driver.implicitly_wait(2)
 
 errorPanel = driver.find_elements(By.CLASS_NAME, "feedbackPanelERROR")
-try:
-    print(errorPanel.count())
-    print(errorPanel.text)
-except Exception as e:
-    print("Date Found")
 dateLine = driver.find_element(By.CLASS_NAME, "fc-day-header")
-print(dateLine.text)
-
-
-# def reset_reader(driver, color):
-#     driver.find_element(by=By.LINK_TEXT, value='Apply').click()
-#     print(COLORS[color] + "Resetting device" + COLORSE)
-#     time.sleep(5)
-#     driver.switch_to.alert.accept()
-#     # Give time to operate ...
-#     time.sleep(INTERVAL)
-
-# for i in range(10):
-#     c = i % len(COLORS)
-#     reset_reader(driver, c)
+if len(errorPanel) > 0:
+    print("No dates found for Uppsala")
+else:
+    print("Date found to be {0}".format(dateLine.text))
 
 driver.quit()
