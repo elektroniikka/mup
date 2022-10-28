@@ -23,5 +23,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Execute Python Script
+      id: action-step
       run: |
-        python automate.py
+        output=$(python automate.py)
+        echo "::set-output name=changelog::$output"
+    - name: Print results
+      run: echo "${{ steps.action-step.outputs.changelog }}"
